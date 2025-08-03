@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>氛合(PHENHERB) | 品牌转型战略仪表盘 </title>
+    <title>氛合(PHENHERB) | 品牌转型战略仪表盘 (移动端适配版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,6 +49,7 @@
             text-align: center;
             padding: 1rem;
             transition: all 0.3s ease;
+            min-height: 10rem;
         }
         .pyramid-level {
             clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
@@ -60,17 +61,42 @@
             text-align: center;
             padding: 1rem;
         }
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+        @keyframes pulse-fade-out {
+            0% { opacity: 0; transform: scale(0.95); }
+            10%, 80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.95); }
+        }
+        .menu-hint {
+            animation: pulse-fade-out 5s ease-in-out forwards;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
+    <div class="relative min-h-screen md:flex">
+        <!-- Mobile header -->
+        <div class="md:hidden flex justify-between items-center bg-white p-4 shadow-md sticky top-0 z-40">
+            <h1 class="text-xl font-bold text-[#003f5c]">氛合 PHENHERB</h1>
+            <button id="mobile-menu-button" class="text-gray-500 focus:outline-none focus:bg-gray-100 p-2 rounded-md">
+                <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <div id="menu-hint" class="absolute top-full right-4 mt-2 bg-red-500 text-white text-xs px-2 py-1 rounded-md shadow-lg">
+                点此展开导航
+                <div class="absolute bottom-full right-2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-b-4 border-b-red-500"></div>
+            </div>
+        </div>
 
-    <div class="flex h-screen">
-        <aside class="w-64 bg-white shadow-md flex flex-col fixed h-full">
-            <div class="p-6 text-center border-b">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="mobile-menu bg-white w-64 shadow-md flex-col fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 md:flex z-30">
+            <div class="p-6 text-center border-b hidden md:block">
                 <h1 class="text-2xl font-bold text-[#003f5c]">氛合 PHENHERB</h1>
                 <p class="text-sm text-gray-500 mt-1">战略仪表盘</p>
             </div>
-            <nav class="flex-1 p-4 space-y-2">
+            <nav class="flex-1 p-4 space-y-2 mt-16 md:mt-0">
                 <a href="#overview" class="sidebar-link flex items-center px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200 active">
                     <span class="mr-3">📊</span> 战略支点
                 </a>
@@ -98,14 +124,14 @@
             </nav>
         </aside>
 
-        <main class="flex-1 p-8 overflow-y-auto ml-64">
+        <main class="flex-1 p-4 md:p-8 overflow-y-auto">
             
             <div id="overview" class="content-section">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6">战略支点：从市场摩擦到市场契合</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">战略支点：从市场摩擦到市场契合</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="card">
                         <h3 class="font-bold text-lg text-[#003f5c]">市场摩擦现状</h3>
-                        <p class="mt-2 text-gray-600">香薰机作为功能品，在核心渠道的**转化率不足10%**，与渠道“发现式购买”的基因存在根本性冲突。</p>
+                        <p class="mt-2 text-gray-600">香薰机作为功能品，在核心渠道的转化率不足10%，与渠道“发现式购买”的基因存在根本性冲突。</p>
                     </div>
                     <div class="card">
                         <h3 class="font-bold text-lg text-[#003f5c]">转型的必然性</h3>
@@ -123,51 +149,70 @@
             </div>
 
             <div id="opportunity" class="content-section hidden">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6">市场机遇：为什么是现在？(数据驱动)</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">市场机遇：为什么是现在？(数据驱动)</h2>
                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div class="card">
                         <h3 class="font-bold text-lg mb-4 text-center">文化趋势：小红书“药香手串”搜索量井喷</h3>
                         <div class="chart-container">
                             <canvas id="searchVolumeChart"></canvas>
                         </div>
-                        <p class="text-sm text-gray-500 mt-2 text-center">年化搜索量增长率高达**320%**，市场需求已被点燃。<br><span class="text-xs italic">来源: 综合新榜、蝉妈妈等平台关于“新中式”及“疗愈”类目增长趋势估算</span></p>
+                        <p class="text-sm text-gray-500 mt-2 text-center">年化搜索量增长率高达320%，市场需求已被点燃。<br><span class="text-xs italic">来源: 综合新榜、蝉妈妈等平台关于“新中式”及“疗愈”类目增长趋势估算</span></p>
                     </div>
                     <div class="card">
                         <h3 class="font-bold text-lg mb-4 text-center">用户需求：Z世代愿意为“情绪价值”买单</h3>
                         <div class="chart-container">
                             <canvas id="willingnessToPayChart"></canvas>
                         </div>
-                        <p class="text-sm text-gray-500 mt-2 text-center">**78%**的Z世代消费者愿意为精神慰藉产品支付溢价。<br><span class="text-xs italic">来源: 综合麦肯锡《2023中国消费者报告》及CBNData相关报告</span></p>
+                        <p class="text-sm text-gray-500 mt-2 text-center">78%的Z世代消费者愿意为精神慰藉产品支付溢价。<br><span class="text-xs italic">来源: 综合麦肯锡《2023中国消费者报告》及CBNData相关报告</span></p>
                     </div>
                 </div>
             </div>
 
             <div id="competition" class="content-section hidden">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6">竞争格局：2x2矩阵下的战略空白区</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">竞争格局：2x2矩阵下的战略空白区</h2>
                 <div class="card">
-                    <div class="grid grid-cols-[auto,1fr,1fr] grid-rows-[1fr,1fr,auto] gap-4 h-[28rem]">
+                    <!-- Desktop View -->
+                    <div class="hidden md:grid md:grid-cols-[auto,1fr,1fr] md:grid-rows-[1fr,1fr,auto] gap-4 h-[28rem]">
                         <div class="flex flex-col justify-around items-end text-right pr-4 row-span-2">
                             <p class="font-bold">匠心工艺</p>
                             <p class="font-bold text-gray-400">工厂通货</p>
                         </div>
-
-                        <div class="matrix-cell"><p class="text-gray-400">高端匠人派<br>(产能有限)</p></div>
+                        <div class="matrix-cell"><p>高端匠人派<br>(产能有限)</p></div>
                         <div class="matrix-cell border-4 border-[#ff6361] bg-red-50"><p class="font-bold text-lg text-[#bc5090]">PHENHERB<br>战略空白区</p></div>
-                        <div class="matrix-cell"><p class="text-gray-400">传统守旧品牌<br>(设计陈旧)</p></div>
-                        <div class="matrix-cell"><p class="text-gray-400">快时尚品牌<br>(品质低劣)</p></div>
-
-                        <div class="col-start-2 flex justify-center items-start text-center pt-2">
-                            <p class="font-bold text-gray-400">传统守旧</p>
+                        <div class="matrix-cell"><p>传统守旧品牌<br>(设计陈旧)</p></div>
+                        <div class="matrix-cell"><p>快时尚品牌<br>(品质低劣)</p></div>
+                        <div class="col-start-2 flex justify-center items-start text-center pt-2"><p class="font-bold text-gray-400">传统守旧</p></div>
+                        <div class="col-start-3 flex justify-center items-start text-center pt-2"><p class="font-bold">现代时尚</p></div>
+                    </div>
+                    <!-- Mobile View -->
+                    <div class="md:hidden">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div></div>
+                            <div class="text-center font-bold text-gray-500 text-sm">传统守旧</div>
+                            <div class="text-center font-bold text-sm">现代时尚</div>
                         </div>
-                        <div class="col-start-3 flex justify-center items-start text-center pt-2">
-                            <p class="font-bold">现代时尚</p>
+                        <div class="grid grid-cols-[auto,1fr,1fr] gap-2 mt-2">
+                            <div class="flex flex-col justify-around items-end text-right text-sm font-bold pr-2">
+                                <p class="h-20 flex items-center">匠心工艺</p>
+                                <p class="h-20 flex items-center text-gray-500">工厂通货</p>
+                            </div>
+                            <div class="space-y-2 col-span-2">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="matrix-cell text-xs h-20"><p>高端匠人派<br>(产能有限)</p></div>
+                                    <div class="matrix-cell border-2 border-[#ff6361] bg-red-50 text-xs h-20"><p class="font-bold text-[#bc5090]">PHENHERB<br>战略空白区</p></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="matrix-cell text-xs h-20"><p>传统守旧品牌<br>(设计陈旧)</p></div>
+                                    <div class="matrix-cell text-xs h-20"><p>快时尚品牌<br>(品质低劣)</p></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div id="audience" class="content-section hidden">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6">目标用户画像：The Conscious Urbanite</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">目标用户画像</h2>
                  <div class="card grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                     <div class="md:col-span-1">
                         <img src="2.png" alt="目标用户画像" class="rounded-full w-48 h-48 mx-auto object-cover border-4 border-[#ff6361]">
@@ -176,23 +221,23 @@
                         <h3 class="text-2xl font-bold text-[#bc5090]">Sophie | 28岁</h3>
                         <p class="text-lg text-gray-600">互联网公司市场经理</p>
                         <div class="mt-4 space-y-2">
-                            <p><strong>#背景:</strong> 工作压力大，睡眠质量不高，渴望精神寄托，日均使用小红书1.5小时。</p>
-                            <p><strong>#偏好:</strong> 关注生活方式博主，信赖注重品质和情感价值的品牌。</p>
-                            <p><strong>#核心诉求:</strong> 寻找一款既能彰显品味，又能提供真实情绪慰藉的高颜值产品。</p>
+                            <p><strong>背景:</strong> 工作压力大，睡眠质量不高，渴望精神寄托，日均使用小红书1.5小时。</p>
+                            <p><strong>偏好:</strong> 关注生活方式博主，信赖注重品质和情感价值的品牌。</p>
+                            <p><strong>核心诉求:</strong> 寻找一款既能彰显品味，又能提供真实情绪慰藉的高颜值产品。</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div id="strategy" class="content-section hidden">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6">增长路径：务实的“三步走”战略</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">增长路径：务实的战略</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="card">
                         <h3 class="text-xl font-bold text-center mb-2">阶段一: MVP验证</h3>
                         <p class="text-center text-gray-500 mb-4">(1-6个月)</p>
                         <ul class="space-y-2 text-left text-sm">
                             <li><strong>🎯 目标:</strong> 以最低成本复刻成功模式，跑通商业闭环。</li>
-                            <li><strong>📦 产品:</strong> “经典复刻款”，不做功能创新。</li>
+                            <li><strong>📦 产品:</strong> “经典复刻款”，不做功能创新。主打“一戴即疗愈”，创作场景化痛点解决内容。</li>
                             <li><strong>📈 成功标志:</strong> 实现持续、正向的销售现金流。</li>
                         </ul>
                     </div>
@@ -200,9 +245,9 @@
                         <h3 class="text-xl font-bold text-center mb-2">阶段二: 差异化构建</h3>
                         <p class="text-center text-gray-500 mb-4">(6-12个月)</p>
                         <ul class="space-y-2 text-left text-sm">
-                            <li><strong>🎯 目标:</strong> 推出“钩子产品”，建立品牌独特性。</li>
-                            <li><strong>📦 产品创新:</strong> 推出带**“可替换香芯”**的“赋能”系列。</li>
-                            <li><strong>📈 成功标志:</strong> “赋能”系列成为核心利润来源，产生精油复购。</li>
+                            <li><strong>🎯 目标:</strong> 建立品牌独特性，产品定位为“随身情绪调节器”，价值主张为“情绪问题，一串解决”。</li>
+                            <li><strong>📦 产品创新:</strong> 推出带“可替换香芯”的“赋能”系列。</li>
+                            <li><strong>📈 成功标志:</strong> “赋能”系列成为核心利润来源，产生复购。</li>
                         </ul>
                     </div>
                     <div class="card">
@@ -210,7 +255,7 @@
                         <p class="text-center text-gray-500 mb-4">(12个月+)</p>
                         <ul class="space-y-2 text-left text-sm">
                             <li><strong>🎯 目标:</strong> 最大化用户LTV，成为赛道领袖。</li>
-                            <li><strong>📦 产品生态:</strong> 推出**“晶石能量基座”**，构建完整体验。</li>
+                            <li><strong>📦 产品生态:</strong> 推出“晶石能量基座”、线香等产品，构建完整体验。</li>
                             <li><strong>📈 成功标志:</strong> 品牌拥有高粘性社群，用户购买生态链产品。</li>
                         </ul>
                     </div>
@@ -218,7 +263,7 @@
             </div>
 
             <div id="product" class="content-section hidden">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6">第一阶段MVP产品系列概念</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">第一阶段MVP产品系列概念</h2>
                 <p class="text-center text-gray-500 mb-8">以下为第一阶段MVP（最小可行性产品）的视觉方向探索，旨在覆盖不同审美偏好，最终款式将根据市场测试反馈决定。</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="card">
@@ -249,7 +294,7 @@
             </div>
 
             <div id="financials" class="content-section hidden">
-                 <h2 class="text-3xl font-bold text-gray-800 mb-6">财务潜力：产品矩阵下的单位经济模型</h2>
+                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">财务潜力：产品矩阵下的单位经济模型</h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div class="card">
                         <h3 class="font-bold text-lg mb-4 text-center">单位经济模型 (引流款)</h3>
@@ -269,7 +314,7 @@
             </div>
 
             <div id="summary" class="content-section hidden">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6">决胜时刻：我们的核心优势</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">决胜时刻</h2>
                 <div class="card">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                         <div>
@@ -442,8 +487,26 @@
                 }
             }
 
+            const sidebar = document.getElementById('sidebar');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const contentSections = document.querySelectorAll('.content-section');
+            const menuHint = document.getElementById('menu-hint');
+
+            if (menuHint && window.innerWidth < 768) {
+                menuHint.classList.add('menu-hint');
+                setTimeout(() => {
+                    if(menuHint) {
+                         menuHint.remove();
+                    }
+                }, 5000);
+            } else if (menuHint) {
+                menuHint.remove();
+            }
+
+            mobileMenuButton.addEventListener('click', function() {
+                sidebar.classList.toggle('-translate-x-full');
+            });
 
             sidebarLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -461,11 +524,18 @@
                         }
                     });
                     
+                    if (window.innerWidth < 768) {
+                       sidebar.classList.add('-translate-x-full');
+                    }
+                    
                     initChartsForPage(targetId);
                 });
             });
             
-            initChartsForPage('overview');
+            const initialSection = document.querySelector('.content-section:not(.hidden)');
+            if(initialSection) {
+                initChartsForPage(initialSection.id);
+            }
         });
     </script>
 </body>
