@@ -3,312 +3,514 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>氛合(Fēn Hé) | 品牌转型战略信息图</title>
+    <title>氛合(PHENHERB) | 品牌转型战略仪表盘</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Modern Orient (Teal: #008080, Coral: #FF7F50, Cream: #FAF9F6, Steel Blue: #4682B4) -->
-    <!-- Application Structure Plan: A single-page, top-to-bottom narrative infographic. The flow is designed to tell a compelling story: 1. The Problem/Pivot (Hook), 2. The Market Opportunity (Why now?), 3. The Competitive Gap (Where we play), 4. The Product Solution (What we sell), 5. The Go-To-Market Plan (How we win), 6. The Financial Case (Why it's profitable). This linear narrative is more effective for an infographic format than a complex dashboard, guiding the viewer through the strategic logic step-by-step. -->
+    <!-- Chosen Palette: Calm Harmony (Background: #f8f9fa, Primary Text: #212529, Accent: #4f6f52, Secondary Accent: #739072, Highlight: #d3a67f) -->
+    <!-- Application Structure Plan: A dashboard-style SPA with a fixed sidebar for navigation and a main content area for dynamic information display. This structure was chosen to allow non-linear exploration of the complex business plan. Users (founder, investors) can jump directly to sections like "市场机遇" or "财务模型" to find key data points, which is more efficient than scrolling through a long linear document. The "概览" page acts as a high-level summary, providing the most critical information upfront. -->
     <!-- Visualization & Content Choices:
-    - Market Trends: Report Text -> Goal: Inform -> Viz: Two large, visually distinct stat cards. Justification: Quickly conveys the two core pillars of the opportunity. Method: HTML/CSS.
-    - Competitive Analysis: Report Table 1 -> Goal: Compare -> Viz: Chart.js Radar Chart. Justification: Visually demonstrates how "氛合" uniquely fills the market gap across multiple dimensions, which is more impactful than a table.
-    - GTM Timeline: Report Table 3 -> Goal: Change -> Viz: Vertical timeline. Justification: Clearly shows the phased rollout plan. Method: Structured HTML/CSS with Tailwind.
-    - Unit Economics: Report Table 4 -> Goal: Compare/Inform -> Viz: Chart.js Stacked Bar Chart. Justification: Instantly visualizes profitability and cost structure for each pricing tier.
-    - Future Vision: Report Text -> Goal: Organize -> Viz: Simple flow diagram. Justification: Shows the growth path from a single product to an ecosystem. Method: HTML/CSS with Flexbox.
+    - Market Trends (2.2): Report's placeholder charts -> Goal: Inform -> Viz: Two dynamic Bar Charts (Chart.js). Justification: Provides clear, quantitative evidence of the two core market trends driving the strategy.
+    - Competitive Landscape (2.3): Report's placeholder radar chart -> Goal: Compare -> Viz: Interactive Radar Chart (Chart.js). Justification: Visually demonstrates the strategic gap PHENHERB fills across multiple capabilities, which is more impactful than a simple table.
+    - Go-To-Market Strategy (5.1): Report's text description -> Goal: Organize -> Viz: A Marketing Pyramid Diagram built with structured HTML/CSS. Justification: Clearly visualizes the multi-layered influencer strategy in a more digestible format than text.
+    - Unit Economics (5.2): Report's placeholder donut chart -> Goal: Inform/Compare -> Viz: Interactive Donut Chart (Chart.js). Justification: Provides an instant, clear breakdown of the MVP's profitability.
+    - Sales Projection (5.3): Report's placeholder bar chart -> Goal: Change -> Viz: A dynamic Bar Chart (Chart.js). Justification: Shows the projected growth trajectory quarter by quarter, making the financial goals tangible.
     - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Noto Sans SC', sans-serif;
-            background-color: #FAF9F6; /* Cream */
-            color: #1F2937;
         }
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 350px;
-            max-height: 400px;
+            height: 300px;
+            max-height: 350px;
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 400px;
-                max-height: 450px;
-            }
+        .sidebar-link.active {
+            background-color: #4f6f52;
+            color: white;
         }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -11px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background-color: #FF7F50; /* Coral */
-            border: 4px solid #FAF9F6; /* Cream */
-        }
-        .stat-number {
-            font-size: 4rem;
-            line-height: 1;
-            font-weight: 700;
-            color: #008080; /* Teal */
+        .pyramid-level {
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 1rem;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="bg-gray-100">
 
-    <div class="container mx-auto px-4 py-12">
+    <div class="flex h-screen">
+        <aside class="w-64 bg-white shadow-md flex flex-col">
+            <div class="p-6 text-center border-b">
+                <h1 class="text-2xl font-bold text-[#4f6f52]">氛合 PHENHERB</h1>
+                <p class="text-sm text-gray-500 mt-1">战略仪表盘</p>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#overview" class="sidebar-link flex items-center px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200 active">
+                    <span class="mr-3">📊</span> 概览
+                </a>
+                <a href="#opportunity" class="sidebar-link flex items-center px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200">
+                    <span class="mr-3">📈</span> 市场机遇
+                </a>
+                <a href="#strategy" class="sidebar-link flex items-center px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200">
+                    <span class="mr-3">🗺️</span> 增长战略
+                </a>
+                <a href="#product" class="sidebar-link flex items-center px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200">
+                    <span class="mr-3">💎</span> MVP产品蓝图
+                </a>
+                <a href="#financials" class="sidebar-link flex items-center px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200">
+                    <span class="mr-3">💰</span> 市场与财务
+                </a>
+                <a href="#risks" class="sidebar-link flex items-center px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200">
+                    <span class="mr-3">🛡️</span> 风险与愿景
+                </a>
+            </nav>
+        </aside>
 
-        <header class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-bold text-[#008080]">氛合(Fēn Hé)</h1>
-            <p class="mt-4 text-xl md:text-2xl font-light text-gray-700">品牌战略转型：把握草本康养新风口</p>
-        </header>
-
-        <main class="space-y-20">
-
-            <section id="pivot" class="text-center">
-                <h2 class="text-3xl font-bold mb-2">一个关键的战略转向</h2>
-                <p class="max-w-2xl mx-auto text-gray-600 mb-8">从“渠道-产品错配”的困境中，发现“文化-消费共鸣”的新生。</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-4xl mx-auto">
-                    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-                        <span class="text-5xl">✖️</span>
-                        <h3 class="text-xl font-semibold mt-2">香薰机</h3>
-                        <p class="text-sm text-gray-500 mt-2">高决策成本<br>体验不可见<br>高度同质化</p>
-                    </div>
-                    <div class="text-center">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-20 md:w-20 mx-auto text-[#FF7F50]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg text-center border-4 border-[#008080]">
-                        <span class="text-5xl">✔️</span>
-                        <h3 class="text-xl font-semibold mt-2">药香手串</h3>
-                        <p class="text-sm text-gray-500 mt-2">低决策成本<br>美学可视化<br>高分享价值</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="opportunity">
-                <h2 class="text-3xl font-bold text-center mb-8">时代机遇：两大文化趋势的交汇</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    <div class="bg-white p-8 rounded-lg shadow-lg">
-                        <h3 class="text-2xl font-bold text-[#4682B4]">“新中式”美学崛起</h3>
-                        <p class="mt-4 text-gray-600">年轻一代对中华文化自信的现代化、时尚化表达。药香手串是完美的穿搭点睛之笔，是可佩戴的东方雅致。</p>
-                        <p class="mt-6 text-5xl font-bold text-[#4682B4] opacity-25">品味</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-lg">
-                        <h3 class="text-2xl font-bold text-[#FF7F50]">“轻养生”观念普及</h3>
-                        <p class="mt-4 text-gray-600">为高压下的都市年轻人提供便捷、无缝融入日常的健康慰藉，精准满足其对情绪价值和精神舒缓的深层需求。</p>
-                        <p class="mt-6 text-5xl font-bold text-[#FF7F50] opacity-25">疗愈</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="competition">
-                <h2 class="text-3xl font-bold text-center mb-4">竞争格局：发现战略机会窗口</h2>
-                <p class="max-w-2xl mx-auto text-center text-gray-600 mb-8">当前市场存在显著空白，尚无品牌能将“正宗工艺”、“现代美学”与“数字营销”三者完美结合。这正是“氛合”的进攻阵地。</p>
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <div class="chart-container">
-                        <canvas id="competitionRadarChart"></canvas>
-                    </div>
-                </div>
-            </section>
+        <main class="flex-1 p-8 overflow-y-auto">
             
-            <section id="product">
-                 <h2 class="text-3xl font-bold text-center mb-8">产品方案：打造可佩戴的文化符号</h2>
-                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-                        <h3 class="text-xl font-bold text-[#008080]">材质基石</h3>
-                        <p class="mt-4 text-gray-600">首选安神功效广为人知的<b class="text-[#008080]">檀香木</b>为入门级产品，以珍稀<b class="text-[#008080]">沉香木</b>作为未来的高端产品线。</p>
+            <div id="overview" class="content-section">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">战略概览</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-gray-500 text-sm font-medium">核心定位</h3>
+                        <p class="text-2xl font-bold text-[#4f6f52] mt-2">新中式情绪疗愈手串</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-                        <h3 class="text-xl font-bold text-[#008080]">核心工艺</h3>
-                        <p class="mt-4 text-gray-600">以独特的<b class="text-[#008080]">“药香”浸润工艺</b>为核心IP，开发“静心”、“凝神”等不同功效指向的草本“香方”。</p>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-gray-500 text-sm font-medium">MVP阶段毛利率</h3>
+                        <p class="text-2xl font-bold text-[#4f6f52] mt-2">68.6%</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-                        <h3 class="text-xl font-bold text-[#008080]">美学设计</h3>
-                        <p class="mt-4 text-gray-600">遵循<b class="text-[#008080]">现代极简</b>风格，以精巧的品牌标识点睛，并提供充满仪式感的开箱体验。</p>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-gray-500 text-sm font-medium">月度盈亏平衡点</h3>
+                        <p class="text-2xl font-bold text-[#4f6f52] mt-2">366 件</p>
                     </div>
-                 </div>
-            </section>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-gray-500 text-sm font-medium">终极目标</h3>
+                        <p class="text-2xl font-bold text-[#4f6f52] mt-2">品类定义者</p>
+                    </div>
+                </div>
+                <div class="mt-8 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">增长路径：务实的“三步走”战略</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="p-4 rounded-lg bg-gray-50 border-l-4 border-[#d3a67f]">
+                            <h4 class="font-bold text-lg">阶段一: MVP验证</h4>
+                            <p class="text-sm text-gray-600 mt-1">以最低成本复刻成功模式，跑通商业闭环。</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-gray-50 border-l-4 border-[#739072]">
+                            <h4 class="font-bold text-lg">阶段二: 差异化构建</h4>
+                            <p class="text-sm text-gray-600 mt-1">推出“可替换香芯”设计，建立品牌独特性。</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-gray-50 border-l-4 border-[#4f6f52]">
+                            <h4 class="font-bold text-lg">阶段三: 生态化锁定</h4>
+                            <p class="text-sm text-gray-600 mt-1">延伸至精油与线下服务，最大化用户LTV。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <section id="timeline">
-                <h2 class="text-3xl font-bold text-center mb-12">上线路线图：策划一场“蓄谋已久”的流行</h2>
-                <div class="relative max-w-2xl mx-auto border-l-4 border-[#008080] border-opacity-30 pl-8">
-                    <div class="timeline-item mb-12">
-                        <h3 class="text-xl font-bold text-[#4682B4]">阶段0: 验证与原型 (W1-4)</h3>
-                        <p class="mt-2 text-gray-600">敲定产品设计，验证供应链，进行小范围用户焦点小组访谈。</p>
+            <div id="opportunity" class="content-section hidden">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">市场机遇：数据揭示的蓝海</h2>
+                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold text-lg mb-4 text-center">文化趋势：“新中式”美学热度飙升</h3>
+                        <div class="chart-container">
+                            <canvas id="newChineseStyleChart"></canvas>
+                        </div>
                     </div>
-                    <div class="timeline-item mb-12">
-                        <h3 class="text-xl font-bold text-[#4682B4]">阶段1: 试产与内容筹备 (W5-8)</h3>
-                        <p class="mt-2 text-gray-600">完成首批小批量生产（500件），备好所有上线视觉内容，启动KOC招募。</p>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold text-lg mb-4 text-center">用户需求：“轻养生”成为Z世代刚需</h3>
+                        <div class="chart-container">
+                            <canvas id="wellnessChart"></canvas>
+                        </div>
                     </div>
-                    <div class="timeline-item mb-12">
-                        <h3 class="text-xl font-bold text-[#4682B4]">阶段2: 上线与初期增长 (W9-12)</h3>
-                        <p class="mt-2 text-gray-600">小红书店铺正式上线，激活中腰部KOL合作，对接平台流量支持。</p>
+                    <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold text-lg mb-4 text-center">竞争格局：雷达图下的战略空白</h3>
+                        <div class="chart-container h-[400px] max-h-[450px] mx-auto max-w-lg">
+                            <canvas id="competitionRadarChart"></canvas>
+                        </div>
                     </div>
-                    <div class="timeline-item">
-                        <h3 class="text-xl font-bold text-[#4682B4]">阶段3: 优化与扩张 (W13+)</h3>
-                        <p class="mt-2 text-gray-600">分析上线数据，收集用户反馈，规划新品（如沉香系列），探索线香等其他品类。</p>
+                     <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold text-lg mb-4 text-center">目标用户画像：我们的“她”是谁？</h3>
+                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                            <div class="md:col-span-1">
+                                <img src="1.png" alt="目标用户画像" class="rounded-full w-48 h-48 mx-auto object-cover border-4 border-[#d3a67f]">
+                            </div>
+                            <div class="md:col-span-2 text-left">
+                                <h3 class="text-2xl font-bold text-[#4f6f52]">林女士 (Lynn) | 32岁</h3>
+                                <p class="text-lg text-gray-600">互联网公司市场总监</p>
+                                <div class="mt-4 space-y-2 text-sm">
+                                    <p><strong>#标签:</strong> 新中式穿搭爱好者, 瑜伽练习者, “观夏”忠实用户, 轻微睡眠困扰, 注重生活仪式感。</p>
+                                    <p><strong>#痛点:</strong> 工作压力大，渴望精神放松，但缺乏便捷有效的途径；市面上的转运饰品过于传统老气。</p>
+                                    <p><strong>#期望:</strong> 寻找一款既能作为日常时尚配饰，又能提供情绪慰藉、彰显独特品味的产品。</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section id="financials">
-                <h2 class="text-3xl font-bold text-center mb-4">财务模型：清晰的盈利路径</h2>
-                <p class="max-w-2xl mx-auto text-center text-gray-600 mb-8">以檀香手串为例，单位经济模型展现了强大的盈利能力，净贡献率高达62%至71%。</p>
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <div class="chart-container h-[400px] md:h-[450px]">
-                        <canvas id="pricingStackedBarChart"></canvas>
+            <div id="strategy" class="content-section hidden">
+                 <h2 class="text-3xl font-bold text-gray-800 mb-6">增长战略详解</h2>
+                 <div class="space-y-8">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-xl font-bold text-[#d3a67f] mb-2">阶段一: MVP验证 (1-6个月)</h3>
+                        <p class="text-gray-600 mb-4">核心目标是验证最小商业闭环。我们将在这一阶段严格控制成本，快速迭代，以最小的代价验证市场的真实需求。</p>
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50"><tr><th class="px-6 py-3">策略维度</th><th class="px-6 py-3">具体行动</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">产品策略</td><td class="px-6 py-4">推出3种基础香型（安神/提神/清心）的标准化药香手串。</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">营销核心</td><td class="px-6 py-4">主打“一戴即疗愈”，创作场景化痛点解决内容（如“加班焦虑的3分钟缓解法”）。</td></tr>
+                                <tr class="bg-white"><td class="px-6 py-4 font-medium">成功标志</td><td class="px-6 py-4 font-bold text-green-600">实现持续、正向的销售现金流。</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-xl font-bold text-[#739072] mb-2">阶段二: 差异化构建 (7-12个月)</h3>
+                        <p class="text-gray-600 mb-4">在MVP成功的基础上，我们将引入核心创新，建立品牌护城河，将品牌定位从一个简单的疗愈手串升级为更专业的解决方案。</p>
+                         <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50"><tr><th class="px-6 py-3">策略维度</th><th class="px-6 py-3">具体行动</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">产品创新</td><td class="px-6 py-4">推出带“可替换香芯”设计的“赋能”系列，并立即申请实用新型专利。</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">品牌升级</td><td class="px-6 py-4">将品牌定位升级为“随身情绪调节器”，价值主张为“情绪问题，一串解决”。</td></tr>
+                                <tr class="bg-white"><td class="px-6 py-4 font-medium">成功标志</td><td class="px-6 py-4 font-bold text-green-600">“赋能”系列成为核心利润来源，用户开始产生精油复购行为。</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-xl font-bold text-[#4f6f52] mb-2">阶段三: 生态化锁定 (12个月+)</h3>
+                        <p class="text-gray-600 mb-4">当品牌成熟后，我们将通过产品线和服务延伸，最大化用户终身价值，最终成为品类的定义者。</p>
+                          <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50"><tr><th class="px-6 py-3">策略维度</th><th class="px-6 py-3">具体行动</th></tr></thead>
+                            <tbody>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">生态延伸</td><td class="px-6 py-4">推出精油复购装作为核心利润来源，并尝试高客单价的线下情绪疗愈工作坊。</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">战略聚焦</td><td class="px-6 py-4">删除数字化APP和宽泛的玄学概念，聚焦于“情绪疗愈”的科学与美学。</td></tr>
+                                <tr class="bg-white"><td class="px-6 py-4 font-medium">成功标志</td><td class="px-6 py-4 font-bold text-green-600">品牌拥有高粘性社群，用户开始购买生态链产品。</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </section>
-            
-            <section id="vision" class="text-center">
-                <h2 class="text-3xl font-bold mb-8">未来版图：构建“氛合”康养生态</h2>
-                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
-                    <div class="bg-white p-4 rounded-lg shadow-md border-2 border-[#FF7F50]">
-                        <span class="text-lg font-bold">药香手串</span>
-                        <p class="text-sm text-gray-500">滩头阵地</p>
-                    </div>
-                    <div class="text-3xl font-light text-[#008080]">→</div>
-                    <div class="bg-white p-4 rounded-lg shadow-md">
-                        <span class="text-lg font-semibold">线香</span>
-                    </div>
-                     <div class="text-3xl font-light text-[#008080]">→</div>
-                    <div class="bg-white p-4 rounded-lg shadow-md">
-                        <span class="text-lg font-semibold">香囊</span>
-                    </div>
-                     <div class="text-3xl font-light text-[#008080]">→</div>
-                    <div class="bg-white p-4 rounded-lg shadow-md">
-                        <span class="text-lg font-semibold">草本茶饮</span>
+            </div>
+
+            <div id="product" class="content-section hidden">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">第一阶段MVP产品蓝图</h2>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">原创产品概念：“静谧之森”</h3>
+                            <img src="http://googleusercontent.com/image_generation_content/2" alt="氛合“静谧之森”系列手串原创概念图" class="w-full rounded-lg shadow-md mb-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">原创包装概念：“开启一份宁静”</h3>
+                            <img src="https://storage.googleapis.com/generative-ai-storytelling-test-data/fenhe/fenhe_package_2.png" alt="氛合“开启一份宁静”包装原创概念图" class="w-full rounded-lg shadow-md">
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">设计原则与成本控制</h3>
+                            <ul class="space-y-4">
+                                <li class="p-4 rounded-md bg-gray-50">
+                                    <h4 class="font-semibold">材质原则</h4>
+                                    <p class="text-sm text-gray-600">檀木基底+玉石点缀，确保文化认同感与触感舒适。</p>
+                                </li>
+                                <li class="p-4 rounded-md bg-gray-50">
+                                    <h4 class="font-semibold">结构原则</h4>
+                                    <p class="text-sm text-gray-600">预留标准化香芯仓，为第二阶段的“可替换香芯”创新做好准备。</p>
+                                </li>
+                                <li class="p-4 rounded-md bg-gray-50">
+                                    <h4 class="font-semibold">包装原则</h4>
+                                    <p class="text-sm text-gray-600">环保简约，但通过开合设计强化“开启疗愈”的仪式感。</p>
+                                </li>
+                                <li class="p-4 rounded-md bg-red-50 text-red-700">
+                                    <h4 class="font-semibold">COGS优化路径</h4>
+                                    <p class="text-sm">选用等级A但非收藏级的檀木（成本-30%），以优质青海料替代昂贵和田玉（成本-40%）。</p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
+
+            <div id="financials" class="content-section hidden">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">市场进入与财务模型</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold text-lg mb-4 text-center">市场进入策略：KOL/KOC金字塔模型</h3>
+                         <div class="relative h-64 w-full max-w-xs mx-auto">
+                            <div class="pyramid-level absolute bottom-0 h-full" style="background-color: #739072;">
+                                <div class="self-center p-2">
+                                    <p class="font-bold">微型KOC (50-100人)</p>
+                                    <p class="text-xs opacity-80">铺垫底层口碑</p>
+                                </div>
+                            </div>
+                            <div class="pyramid-level absolute bottom-0 h-2/3" style="background-color: #4f6f52; width: 66.66%;">
+                                 <div class="self-center p-2">
+                                    <p class="font-bold">中腰部KOL (5-10人)</p>
+                                    <p class="text-xs opacity-80">制造声量爆发</p>
+                                </div>
+                            </div>
+                            <div class="pyramid-level absolute bottom-0 h-1/3" style="background-color: #d3a67f; width: 33.33%;">
+                                 <div class="self-center p-2">
+                                    <p class="font-bold">头部KOL (1-2人)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold text-lg mb-4 text-center">单位经济模型 (MVP款)</h3>
+                        <div class="chart-container">
+                            <canvas id="economicsDonutChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold text-lg mb-4 text-center">第一年销售目标预测 (基于务实增长模型)</h3>
+                         <div class="chart-container">
+                            <canvas id="salesProjectionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="risks" class="content-section hidden">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">风险控制与最终愿景</h2>
+                <div class="bg-white p-6 rounded-lg shadow mb-8">
+                     <h3 class="font-bold text-lg mb-4">风险控制：针对性措施</h3>
+                     <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3">风险类型</th>
+                                    <th class="px-6 py-3">应对策略</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">模仿风险</td><td class="px-6 py-4">立即着手为第二阶段的“可替换香芯结构”申请实用新型专利，建立技术壁垒。</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">渠道依赖</td><td class="px-6 py-4">在小红书跑通模式后的第4个月，同步启动天猫旗舰店的筹备工作。</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">香材成本</td><td class="px-6 py-4">与3家以上核心香材供应商签订阶梯价格协议，分散风险，锁定长期成本。</td></tr>
+                                <tr class="bg-white"><td class="px-6 py-4 font-medium">竞品降价</td><td class="px-6 py-4">不参与价格战。持续强化“原创设计 + 独特工艺 + 仪式感体验”的非价格壁垒。</td></tr>
+                            </tbody>
+                        </table>
+                     </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="font-bold text-lg mb-4">终极目标：成为新中式情绪疗愈品类定义者</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6 text-gray-700">
+                        <div class="text-center p-4 bg-gray-100 rounded-lg">
+                            <p class="font-bold">核心业务</p><p>(手串)</p>
+                        </div>
+                        <div class="text-2xl font-light text-[#d3a67f]">→</div>
+                        <div class="text-center p-4 bg-gray-100 rounded-lg">
+                            <p class="font-bold">生态</p><p>(精油复购)</p>
+                        </div>
+                         <div class="text-2xl font-light text-[#d3a67f]">→</div>
+                        <div class="text-center p-4 bg-gray-100 rounded-lg">
+                            <p class="font-bold">服务</p><p>(线下体验)</p>
+                        </div>
+                         <div class="text-2xl font-light text-[#d3a67f]">→</div>
+                        <div class="text-center p-4 bg-[#4f6f52] text-white rounded-lg">
+                            <p class="font-bold">最终形态</p><p>(情绪疗愈品牌矩阵)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </main>
-
-        <footer class="text-center mt-20 pt-8 border-t border-gray-200">
-            <p class="text-gray-500">&copy; 2025 氛合 Fēn Hé</p>
-        </footer>
-
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const defaultFontColor = '#374151';
-            Chart.defaults.font.family = "'Noto Sans SC', sans-serif";
-            Chart.defaults.color = defaultFontColor;
-
-            const tooltipTitleCallback = function(tooltipItems) {
-                const item = tooltipItems[0];
-                let label = item.chart.data.labels[item.dataIndex];
-                if (Array.isArray(label)) {
-                    return label.join(' ');
-                }
-                return label;
-            };
-
-            const competitionRadarCtx = document.getElementById('competitionRadarChart').getContext('2d');
-            new Chart(competitionRadarCtx, {
-                type: 'radar',
-                data: {
+            const chartData = {
+                newChineseStyle: {
+                    labels: ['2022', '2023', '2024', '2025 (Est.)'],
+                    data: [100, 180, 350, 600],
+                    label: '“新中式”搜索指数',
+                    color: '#d3a67f'
+                },
+                wellness: {
+                    labels: ['2022', '2023', '2024', '2025 (Est.)'],
+                    data: [100, 150, 280, 450],
+                    label: '“轻养生”消费增长',
+                    color: '#739072'
+                },
+                competition: {
                     labels: ['正宗工艺', '现代美学', '数字营销', '品牌故事', '规模化'],
                     datasets: [{
                         label: '市场现有玩家',
                         data: [5, 5, 4, 4, 6],
-                        backgroundColor: 'rgba(70, 130, 180, 0.2)', // SteelBlue
-                        borderColor: 'rgba(70, 130, 180, 1)',
-                        pointBackgroundColor: 'rgba(70, 130, 180, 1)',
+                        backgroundColor: 'rgba(211, 166, 127, 0.2)',
+                        borderColor: '#d3a67f',
+                        pointBackgroundColor: '#d3a67f',
                         borderWidth: 2
                     }, {
-                        label: '“氛合”战略定位',
+                        label: 'PHENHERB 战略定位',
                         data: [8, 9, 9, 9, 7],
-                        backgroundColor: 'rgba(0, 128, 128, 0.2)', // Teal
-                        borderColor: 'rgba(0, 128, 128, 1)',
-                        pointBackgroundColor: 'rgba(0, 128, 128, 1)',
+                        backgroundColor: 'rgba(79, 111, 82, 0.2)',
+                        borderColor: '#4f6f52',
+                        pointBackgroundColor: '#4f6f52',
                         borderWidth: 2
                     }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: { display: false },
-                        legend: { position: 'bottom' },
-                        tooltip: { callbacks: { title: tooltipTitleCallback } }
-                    },
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                            pointLabels: { font: { size: 14 } },
-                            suggestedMin: 0,
-                            suggestedMax: 10
-                        }
-                    }
-                }
-            });
-
-            const pricingStackedBarCtx = document.getElementById('pricingStackedBarChart').getContext('2d');
-            new Chart(pricingStackedBarCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['方案一 ¥199', '方案二 ¥249', '方案三 ¥299'],
-                    datasets: [
-                        {
-                            label: '单位销售成本',
-                            data: [50, 50, 50],
-                            backgroundColor: '#4682B4', // Steel Blue
-                        },
-                        {
-                            label: '其他可变成本',
-                            data: [25, 30, 35],
-                            backgroundColor: '#A9A9A9', // DarkGray (for cost)
-                        },
-                        {
-                            label: '单位净贡献',
-                            data: [124, 169, 214],
-                            backgroundColor: '#008080', // Teal
-                        }
-                    ]
+                economics: {
+                    labels: ['原材料 (21.8%)', '加工包装物流 (9.6%)', '单位贡献 (68.6%)'],
+                    data: [52, 23, 164],
+                    colors: ['#d3a67f', '#e9e0d8', '#4f6f52']
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: '不同定价方案盈利能力对比 (单位: 元)',
-                            padding: { top: 10, bottom: 20 },
-                            font: { size: 16, weight: 'bold' }
-                        },
-                        legend: { position: 'bottom' },
-                        tooltip: {
-                            callbacks: {
-                                title: tooltipTitleCallback,
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) { label += ': '; }
-                                    if (context.parsed.y !== null) {
-                                        label += '¥' + context.parsed.y;
+                sales: {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    data: [5, 10, 15, 22],
+                    label: '销售额 (万元)',
+                    colors: ['#e9e0d8', '#d3a67f', '#739072', '#4f6f52']
+                }
+            };
+            
+            let charts = {};
+
+            const defaultFontColor = '#212529';
+            Chart.defaults.font.family = "'Noto Sans SC', sans-serif";
+            Chart.defaults.color = defaultFontColor;
+            Chart.defaults.font.size = 12;
+
+            const tooltipTitleCallback = function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) { return label.join(' '); }
+                return label;
+            };
+
+            function createBarChart(ctx, chartInfo) {
+                return new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartInfo.labels,
+                        datasets: [{
+                            label: chartInfo.label,
+                            data: chartInfo.data,
+                            backgroundColor: chartInfo.color,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+
+            function createRadarChart(ctx, chartInfo) {
+                 return new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: chartInfo.labels,
+                        datasets: chartInfo.datasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { title: tooltipTitleCallback } } },
+                        scales: { r: { angleLines: { color: 'rgba(0,0,0,0.1)' }, grid: { color: 'rgba(0,0,0,0.1)' }, pointLabels: { font: { size: 14 } }, suggestedMin: 0, suggestedMax: 10 } }
+                    }
+                });
+            }
+
+            function createDonutChart(ctx, chartInfo) {
+                return new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: chartInfo.labels,
+                        datasets: [{
+                            data: chartInfo.data,
+                            backgroundColor: chartInfo.colors,
+                            borderColor: '#ffffff',
+                            borderWidth: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { padding: 15 } },
+                            tooltip: {
+                                callbacks: {
+                                    title: tooltipTitleCallback,
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) { label += ': '; }
+                                        return label + '¥' + context.raw;
                                     }
-                                    return label;
                                 }
                             }
-                        }
-                    },
-                    scales: {
-                        x: { stacked: true, grid: { display: false } },
-                        y: { stacked: true, grid: { color: 'rgba(0, 0, 0, 0.05)' } }
+                        },
+                        cutout: '60%'
                     }
+                });
+            }
+            
+            function createSalesChart(ctx, chartInfo) {
+                 return new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartInfo.labels,
+                        datasets: [{
+                            label: chartInfo.label,
+                            data: chartInfo.data,
+                            backgroundColor: chartInfo.colors,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } },
+                        scales: { y: { beginAtZero: true, ticks: { callback: function(value) { return value + '万' } } } }
+                    }
+                });
+            }
+            
+            function initCharts() {
+                if (document.getElementById('newChineseStyleChart') && !charts.newChineseStyle) {
+                    charts.newChineseStyle = createBarChart(document.getElementById('newChineseStyleChart').getContext('2d'), chartData.newChineseStyle);
                 }
+                if (document.getElementById('wellnessChart') && !charts.wellness) {
+                    charts.wellness = createBarChart(document.getElementById('wellnessChart').getContext('2d'), chartData.wellness);
+                }
+                if (document.getElementById('competitionRadarChart') && !charts.competition) {
+                    charts.competition = createRadarChart(document.getElementById('competitionRadarChart').getContext('2d'), chartData.competition);
+                }
+                if (document.getElementById('economicsDonutChart') && !charts.economics) {
+                    charts.economics = createDonutChart(document.getElementById('economicsDonutChart').getContext('2d'), chartData.economics);
+                }
+                if (document.getElementById('salesProjectionChart') && !charts.sales) {
+                    charts.sales = createSalesChart(document.getElementById('salesProjectionChart').getContext('2d'), chartData.sales);
+                }
+            }
+
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    contentSections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.remove('hidden');
+                        } else {
+                            section.classList.add('hidden');
+                        }
+                    });
+                    
+                    initCharts();
+                });
             });
+            
+            initCharts();
         });
     </script>
 </body>
